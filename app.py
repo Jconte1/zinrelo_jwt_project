@@ -22,16 +22,16 @@ def index():
 
 @app.route('/zinrelo/jwt', methods=['GET'])
 def generate_zinrelo_jwt():
-    # Get `email_address` from query parameters and use it as `member_id`
-    email_address = request.args.get('email_address', '')  # Default to empty string if not provided
+   
+    email_address = request.args.get('email_address', '')  
 
-    # If no email address is provided, return an error
+    
     if not email_address:
         return jsonify({'error': 'Missing email_address (required as member_id)'}), 400
 
     user_info = {
         'sub': ZINRELO_API_KEY_IDENTIFIER,
-        'member_id': email_address,  # Using email_address as member_id
+        'member_id': email_address,  
         'email_address': email_address,
         'exp': int(time.time()) + 1800  # Token expires in 30 minutes
     }

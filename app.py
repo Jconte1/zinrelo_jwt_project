@@ -1,7 +1,7 @@
+from flask import Flask, jsonify, request
 import os
 import time
 import jwt
-from flask import Flask, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 
@@ -14,7 +14,6 @@ ZINRELO_API_KEY_IDENTIFIER = os.getenv("ZINRELO_API_KEY_IDENTIFIER")
 app = Flask(__name__)
 
 # Enable CORS for specific origin(s) or all (*).
-# If you trust only your domain, do:
 CORS(app, resources={r"/zinrelo/*": {"origins": ["https://mld.com"]}})
 
 @app.route('/')
@@ -23,12 +22,20 @@ def index():
 
 @app.route('/zinrelo/jwt', methods=['GET'])
 def generate_zinrelo_jwt():
+    # Get `email_address` from query parameters and use it as `member_id`
+    email_address = request.args.get('email_address', '')  # Default to empty string if not provided
+
+    # If no email address is provided, return an error
+    if not email_address:
+        return jsonify({'error': 'Missing email_address (required as member_id)'}), 400
+
     user_info = {
         'sub': ZINRELO_API_KEY_IDENTIFIER,
-        'member_id': 'Unique-UserID',
-        'email_address': 'user@example.com',
-        'exp': int(time.time()) + 1800
+        'member_id': email_address,  # Using email_address as member_id
+        'email_address': email_address,
+        'exp': int(time.time()) + 1800  # Token expires in 30 minutes
     }
+
     encoded_jwt = jwt.encode(user_info, ZINRELO_API_KEY, algorithm='HS256')
     return jsonify({
         'jwt_token': encoded_jwt,

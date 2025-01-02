@@ -23,7 +23,7 @@ def index():
 @app.route('/zinrelo/jwt', methods=['GET'])
 def generate_zinrelo_jwt():
    
-    email_address = request.args.get('email_address', '')  
+    email_address = request.args.get('email_address', '') or 'example@test.com' 
 
     
     if not email_address:

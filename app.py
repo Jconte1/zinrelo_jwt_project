@@ -27,7 +27,7 @@ def generate_zinrelo_jwt():
     
     # Example user info
     user_info = {
-        'sub': ZINRELO_API_KEY_IDENTIFIER,  # Only required if not using default key
+        'sub': ZINRELO_API_KEY_IDENTIFIER,  # Only required if not using default key hi
         'member_id': 'Unique-UserID',
         'email_address': 'user@example.com',
         'first_name': 'John',

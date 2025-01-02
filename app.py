@@ -20,14 +20,14 @@ def index():
 @app.route('/zinrelo/jwt', methods=['GET'])
 def generate_zinrelo_jwt():
     """
-    Returns a JWT with user data. 
+    Returns a JWT with user data, and also returns the partner ID in the JSON response.
     In a real scenario, you'd authenticate the user, 
     then fill out user_info with their details dynamically.
     """
     
     # Example user info
     user_info = {
-        'sub': ZINRELO_API_KEY_IDENTIFIER,  # Only required if not using default key hi
+        'sub': ZINRELO_API_KEY_IDENTIFIER,  # Only required if not using default key
         'member_id': 'Unique-UserID',
         'email_address': 'user@example.com',
         'first_name': 'John',
@@ -36,7 +36,12 @@ def generate_zinrelo_jwt():
     }
     
     encoded_jwt = jwt.encode(user_info, ZINRELO_API_KEY, algorithm='HS256')
-    return jsonify({'jwt_token': encoded_jwt})
+    
+    # Return both the JWT and the partner ID so the frontend can read it
+    return jsonify({
+        'jwt_token': encoded_jwt,
+        'partner_id': ZINRELO_PARTNER_ID
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -14,7 +14,7 @@ ZINRELO_API_KEY_IDENTIFIER = os.getenv("ZINRELO_API_KEY_IDENTIFIER")
 app = Flask(__name__)
 
 # Enable CORS for specific origin(s) or all (*).
-CORS(app, resources={r"/zinrelo/*": {"origins": "*"}})
+CORS(app, resources={r"/zinrelo/*": {"origins": ["https://shop.mld.com"]}})
 
 @app.route('/')
 def index():
